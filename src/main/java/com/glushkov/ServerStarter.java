@@ -1,4 +1,10 @@
+package com.glushkov;
+
+import com.glushkov.Server;
+
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class ServerStarter {
     public static void main(String[] args) throws IOException {
@@ -8,4 +14,3 @@ public class ServerStarter {
         server.start();
     }
 }
-

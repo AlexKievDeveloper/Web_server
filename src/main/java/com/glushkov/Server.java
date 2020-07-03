@@ -1,3 +1,5 @@
+package com.glushkov;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -21,17 +23,24 @@ public class Server {
                         String lineFromClient = socketReader.readLine();
                         if (lineFromClient.isEmpty()) {
                             break;
-                        } else if (lineFromClient.contains("GET")) {
-                            String request = lineFromClient.substring(lineFromClient.indexOf('T') + 2, lineFromClient.indexOf('H') - 1);
+                        } else {
+                            if (lineFromClient.contains("GET")) {
+                                String request = lineFromClient.substring(lineFromClient.indexOf('T') + 2, lineFromClient.indexOf('H') - 1);
 
-
-                            if (new File(pathToResources + request).exists() && request.length() > 1) {
-                                String result = getResourcesFromPath(pathToResources + request);
-                                socketWriter.write("HTTP/1.1 200 OK");
-                                socketWriter.write(LINE_END);
-                                socketWriter.write(LINE_END);
-                                socketWriter.write(result);
-                                socketWriter.flush();
+                                if (new File(pathToResources + request).exists() && request.length() > 1) {
+                                    String result = getResourcesFromPath(pathToResources + request);
+                                    socketWriter.write("HTTP/1.1 200 OK");
+                                    socketWriter.write(LINE_END);
+                                    socketWriter.write(LINE_END);
+                                    socketWriter.write(result);
+                                    socketWriter.write(LINE_END);
+                                    socketWriter.flush();
+                                } else {
+                                    socketWriter.write("HTTP/1.1 404 Not Found");
+                                    socketWriter.write(LINE_END);
+                                    socketWriter.write(LINE_END);
+                                    socketWriter.flush();
+                                }
                             } else {
                                 socketWriter.write("HTTP/1.1 404 Not Found");
                                 socketWriter.write(LINE_END);
@@ -40,8 +49,8 @@ public class Server {
                             }
                         }
                     }
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
+                } catch (IOException | NullPointerException exception) {
+                    exception.printStackTrace();
                 }
             }
         } catch (IOException ioException) {
