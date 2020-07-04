@@ -26,7 +26,7 @@ public class ServerTest {
     public void setUp() {
         Server server = new Server();
         server.setPort(3000);
-        server.setPathToResources("src/main/resources/webapp");
+        server.setwebAppPaths("src/main/resources/webapp");
         server.start();
     }
 
