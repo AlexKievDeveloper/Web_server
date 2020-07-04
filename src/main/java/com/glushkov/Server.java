@@ -7,8 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Server {
-    private static final String LINE_END = "\n";
-    private String pathToResources;
+    private static final String LINE_END = "\r\n";
+    private String pathToResource;
     private int port;
 
     public void start() {
@@ -19,43 +19,40 @@ public class Server {
                      BufferedWriter socketWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                      BufferedReader socketReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));) {
 
-                    while (true) {
-                        String lineFromClient = socketReader.readLine();
-                        if (lineFromClient.isEmpty()) {
-                            break;
-                        } else {
-                            if (lineFromClient.contains("GET")) {
-                                String request = lineFromClient.substring(lineFromClient.indexOf('T') + 2, lineFromClient.indexOf('H') - 1);
-
-                                if (new File(pathToResources + request).exists() && request.length() > 1) {
-                                    String result = getResourcesFromPath(pathToResources + request);
-                                    socketWriter.write("HTTP/1.1 200 OK");
-                                    socketWriter.write(LINE_END);
-                                    socketWriter.write(LINE_END);
-                                    socketWriter.write(result);
-                                    socketWriter.write(LINE_END);
-                                    socketWriter.flush();
-                                } else {
-                                    socketWriter.write("HTTP/1.1 404 Not Found");
-                                    socketWriter.write(LINE_END);
-                                    socketWriter.write(LINE_END);
-                                    socketWriter.flush();
-                                }
-                            } else {
-                                socketWriter.write("HTTP/1.1 404 Not Found");
+                    String lineFromClient = socketReader.readLine();
+                    if (lineFromClient.isEmpty()) {
+                        break;
+                    } else {
+                        if (lineFromClient.contains("GET")) {
+                            String request = lineFromClient.substring(lineFromClient.indexOf('T') + 2, lineFromClient.indexOf('H') - 1);
+                            if (!request.equals("/") && new File(pathToResource, request).exists()) {
+                                String result = getResourcesFromPath(pathToResource + request);
+                                socketWriter.write("HTTP/1.1 200 OK");
                                 socketWriter.write(LINE_END);
                                 socketWriter.write(LINE_END);
+                                socketWriter.write(result);
                                 socketWriter.flush();
+                            } else {
+                                unknownFile(socketWriter);
                             }
+                        } else {
+                            unknownFile(socketWriter);
                         }
                     }
-                } catch (IOException | NullPointerException exception) {
+                } catch (IOException exception) {
                     exception.printStackTrace();
                 }
             }
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
+    }
+
+    public void unknownFile(BufferedWriter socketWriter) throws IOException {
+        socketWriter.write("HTTP/1.1 404 Not Found");
+        socketWriter.write(LINE_END);
+        socketWriter.write(LINE_END);
+        socketWriter.flush();
     }
 
     private String getResourcesFromPath(String request) {
@@ -67,11 +64,11 @@ public class Server {
     }
 
     public String getPathToResources() {
-        return pathToResources;
+        return pathToResource;
     }
 
     public void setPathToResources(String pathToResources) {
-        this.pathToResources = pathToResources;
+        this.pathToResource = pathToResources;
     }
 
     public int getPort() {
