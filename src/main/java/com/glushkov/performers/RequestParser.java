@@ -4,7 +4,6 @@ import com.glushkov.entities.HttpMethod;
 import com.glushkov.entities.Request;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;

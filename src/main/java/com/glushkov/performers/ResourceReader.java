@@ -18,15 +18,17 @@ public class ResourceReader {
     public String getResource(String uri) {
         try {
             if (!uri.equals("/")) {
+
                 Path pathToFile = Path.of(webAppPath, uri).toAbsolutePath();
                 File file = new File(String.valueOf(pathToFile));
+
                 if (file.exists()) {
                     return Files.readString(Paths.get(String.valueOf(pathToFile)));
-                } else throw new RuntimeException("File not found, path:");
+                } else throw new RuntimeException("File not found, path:" + pathToFile.toString());
             }
         } catch (IOException ioException) {
             throw new RuntimeException(ioException);
         }
-        throw new RuntimeException("File not found, path:");
+        throw new RuntimeException("File not found, path:" + webAppPath + uri);
     }
 }
