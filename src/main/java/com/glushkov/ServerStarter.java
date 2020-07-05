@@ -1,6 +1,6 @@
 package com.glushkov;
 
-import com.glushkov.entities.Server;
+import com.glushkov.server.Server;
 
 public class ServerStarter {
     public static void main(String[] args) {

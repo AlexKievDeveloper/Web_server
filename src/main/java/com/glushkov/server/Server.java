@@ -1,10 +1,9 @@
-package com.glushkov.entities;
-
-import com.glushkov.manager.RequestHandler;
+package com.glushkov.server;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+
 
 public class Server {
 
@@ -19,8 +18,9 @@ public class Server {
                      BufferedWriter socketWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                      BufferedReader socketReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));) {
 
-                    RequestHandler requestHandler = new RequestHandler(socketReader, socketWriter, webAppPath);
-                    requestHandler.handler();
+                    RequestHandler requesthandler = new RequestHandler(socketReader, socketWriter, webAppPath);
+                    requesthandler.handle();
+
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
@@ -30,16 +30,8 @@ public class Server {
         }
     }
 
-    public String getWebAppPath() {
-        return webAppPath;
-    }
-
     public void setWebAppPath(String webAppPaths) {
         this.webAppPath = webAppPaths;
-    }
-
-    public int getPort() {
-        return port;
     }
 
     public void setPort(int port) {

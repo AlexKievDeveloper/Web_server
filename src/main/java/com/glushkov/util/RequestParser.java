@@ -1,7 +1,9 @@
-package com.glushkov.performers;
+package com.glushkov.util;
 
-import com.glushkov.entities.HttpMethod;
-import com.glushkov.entities.Request;
+import com.glushkov.entity.HttpMethod;
+import com.glushkov.entity.HttpStatus;
+import com.glushkov.entity.Request;
+import com.glushkov.exception.ServerException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,22 +22,19 @@ public class RequestParser {
                 injectHeaders(request, socketReader);
                 return request;
             } else {
-                throw new RuntimeException("Client request was empty string or null:" + requestLine);
+                throw new ServerException(HttpStatus.BAD_REQUEST);
             }
         } catch (IOException ioException) {
-            throw new RuntimeException(ioException);
+            throw new ServerException(HttpStatus.BAD_REQUEST);
         }
     }
 
     void injectUrlAndHttpMethod(Request request, String requestLine) {
         String[] split = requestLine.split(" ");
 
-        if (split[0].equals(HttpMethod.GET.toString()) || split[0].equals(HttpMethod.POST.toString())) {
-            HttpMethod httpMethod = HttpMethod.valueOf(split[0]);
-            request.setHttpMethod(httpMethod);
+        if (HttpMethod.getByName(split[0]) instanceof HttpMethod) {
+            request.setHttpMethod(HttpMethod.valueOf(split[0]));
             request.setUri(split[1]);
-        } else {
-            throw new RuntimeException("Client request did not contain the correct HttpMethod:" + requestLine);
         }
     }
 
@@ -53,7 +52,7 @@ public class RequestParser {
             }
             request.setHeaders(headers);
         } catch (IOException ioException) {
-            ioException.printStackTrace();
+            throw new ServerException(HttpStatus.BAD_REQUEST);
         }
     }
 }
