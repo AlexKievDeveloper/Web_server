@@ -6,7 +6,8 @@ public class ServerException extends RuntimeException {
 
     private HttpStatus httpStatus;
 
-    public ServerException(HttpStatus httpStatus) {
+    public ServerException(String message, HttpStatus httpStatus) {
+        super(message);
         this.httpStatus = httpStatus;
     }
 

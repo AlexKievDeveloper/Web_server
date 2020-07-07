@@ -1,7 +1,5 @@
 package com.glushkov.entity;
 
-import com.glushkov.exception.ServerException;
-
 public enum HttpMethod {
     GET("get"),
     POST("post"),
@@ -21,7 +19,7 @@ public enum HttpMethod {
                 return httpMethod;
             }
         }
-        throw new ServerException(HttpStatus.METHOD_NOT_ALLOWED);
+        throw new IllegalArgumentException("No method for name: " + name + " found");
     }
 
     public String getName() {
