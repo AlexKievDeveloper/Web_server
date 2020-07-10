@@ -7,8 +7,7 @@ import com.glushkov.entity.Request;
 import com.glushkov.exception.ServerException;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +19,7 @@ public class RequestParser {
         try {
             String requestLine = socketReader.readLine();
             logger.debug("Request was: " + requestLine);
+
             if (requestLine == null || requestLine.isEmpty()) {
                 throw new ServerException("Request line was null or empty:" + requestLine, HttpStatus.BAD_REQUEST);
             }

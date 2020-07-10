@@ -5,7 +5,7 @@ import com.glushkov.entity.HttpStatus;
 import com.glushkov.exception.ServerException;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedWriter;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 
 public class ResponseWriter {
@@ -15,21 +15,21 @@ public class ResponseWriter {
 
     private static final String LINE_END = "\r\n";
 
-    private BufferedWriter socketWriter;
+    private BufferedOutputStream socketWriter;
 
-    public ResponseWriter(BufferedWriter socketWriter) {
+    public ResponseWriter(BufferedOutputStream socketWriter) {
         this.socketWriter = socketWriter;
     }
 
     public void writeResponse(HttpStatus httpStatus) {
-        writeResponse(httpStatus, EMPTY_CONTENT);
+        writeResponse(httpStatus, EMPTY_CONTENT.getBytes());
     }
 
-    public void writeResponse(HttpStatus httpStatus, String body) {
+    public void writeResponse(HttpStatus httpStatus, byte[] body) {
         try {
-            socketWriter.write(httpStatus.getStatusLine());
-            socketWriter.write(LINE_END);
-            socketWriter.write(LINE_END);
+            socketWriter.write(httpStatus.getStatusLine().getBytes());
+            socketWriter.write(LINE_END.getBytes());
+            socketWriter.write(LINE_END.getBytes());
             socketWriter.write(body);
             logger.debug("Server answered: " + httpStatus.getStatusLine());
         } catch (IOException ioException) {

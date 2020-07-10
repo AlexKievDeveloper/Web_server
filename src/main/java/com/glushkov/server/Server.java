@@ -22,7 +22,7 @@ public class Server {
             while (true) {
                 try (Socket socket = serverSocket.accept();
                      BufferedReader socketReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                     BufferedWriter socketWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()))) {
+                     BufferedOutputStream socketWriter = new BufferedOutputStream(socket.getOutputStream())) {
 
                     RequestHandler requesthandler = new RequestHandler(socketReader, socketWriter, webAppPath);
                     requesthandler.handle();

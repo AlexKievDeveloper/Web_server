@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Autofagy-Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header id="header" class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <img src="img/hands.jpg" alt="Leaf" class="logo animate__animated animate__fadeInDown">
+            </div>
+            <div class="col-lg-5 ml-auto">
+                <nav>
+                    <ul class="menu d-flex justify-content-center">
+                        <li class="menu__item">
+                            <a href="index.html">
+                                Home
+                            </a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="media.html">
+                                Media
+                            </a>
+                        </li>
+                        <li class="menu__item">
+                            <a href="form.html">
+                                <font color="#EE82EE">Registration</font>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <div class="registration-form">
+            <div class="row">
+                <div class="col-lg-7">
+                    <form action="#" class="registration-field">
+                        <label for="name">Name
+                            <input type="text" id="name" placeholder="Enter your name" class="form__input" required>
+                        </label>
+                    </form>
+                    <form action="#" class="registration-field">
+                        <label for="surname">Surname
+                            <input type="text" id="surname" placeholder="Enter your surname" class="form__input"
+                                   required>
+                        </label>
+                    </form>
+                    <form action="#" class="registration-field">
+                        <label for="city"> City
+                            <input type="text" id="city" placeholder="Enter your city" class="form__input">
+                        </label>
+                    </form>
+                    <form action="#" class="registration-field">
+                        <label for="email"> Email
+                            <input type="email" id="email" placeholder="Enter your email" class="form__input" required>
+                        </label>
+                    </form>
+                    <form action="#" class="registration-field">
+                        <label for="phone"> Phone
+                            <input type="text" id="phone" placeholder="Enter your phone" class="form__input" required>
+                        </label>
+                    </form>
+
+
+                    <form class="radio-buttons">
+                        <p>Please select your preferred contact method:</p>
+                        <div>
+                            <input type="radio" id="contactChoice1"
+                                   name="contact" value="email">
+                            <label for="contactChoice1">Email</label>
+
+                            <input type="radio" id="contactChoice2"
+                                   name="contact" value="phone">
+                            <label for="contactChoice2">Phone</label>
+
+                            <input type="radio" id="contactChoice3"
+                                   name="contact" value="mail">
+                            <label for="contactChoice3">Messengers</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter">
+                            <label for="subscribeNews">Subscribe to newsletter?</label>
+                        </div>
+                        <div>
+                            <button type="submit" class="form__btn">SUBMIT</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="message-form">
+            <div class="row">
+                <div class="col-7">
+                    <form>
+                        <label for="message">
+                            Write your comment:
+                            <textarea rows="10" cols="70" name="text" id="message"></textarea>
+                        </label>
+                        <button type="submit" class="form__btn">SUBMIT</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section id="touch" class="touch">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="title-3">
+                    <h2 class="black">
+                        Keep in touch with us
+                    </h2>
+                    <p class="title__text black">
+                        We are always ready to answer any of your questions. Be healthy with autophagyphy life.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="contacts">
+                    Email: Autofagylife@gmail.com
+                    Tel: +380688888888
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<footer id="footer" class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="credits">
+                    AUTOFAGY LIFE LLC,<br>
+                    Kiev, Ukraine
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

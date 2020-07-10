@@ -16,7 +16,7 @@ public class RequestParserTest {
     RequestParser requestParser;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         requestLine = "GET /about.html HTTP/1.1";
         requestParser = new RequestParser();
     }
@@ -24,7 +24,7 @@ public class RequestParserTest {
     @Test
     public void parseRequest() {
         File pathToRequest = new File("src/test/RequestGET.txt");
-        try(BufferedReader fileReader = new BufferedReader(new InputStreamReader(new FileInputStream(pathToRequest)))){
+        try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(new FileInputStream(pathToRequest)))) {
 
             Request request = requestParser.parseRequest(fileReader);
             Map<String, String> map = request.getHeaders();
@@ -62,7 +62,7 @@ public class RequestParserTest {
     @Test
     public void injectHeaders() {
         File pathToRequest = new File("src/test/RequestGET.txt");
-        try(BufferedReader fileReader = new BufferedReader(new InputStreamReader(new FileInputStream(pathToRequest)))){
+        try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(new FileInputStream(pathToRequest)))) {
 
             Request request = requestParser.parseRequest(fileReader);
 

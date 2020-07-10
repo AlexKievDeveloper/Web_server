@@ -1,7 +1,304 @@
+/*Specification*/
+
 body {
-    background-color: aqua;
+    font-family: 'PT Sans', sans-serif;
 }
 
-h1 {
+ul, li {
+    display: block;
+    padding: 0;
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: 700;
+    color: #000000;
+}
+
+h2 {
+    text-align: center;
+}
+
+h3 {
+    font-weight: 400;
+}
+
+.title {
+    padding-top: 100px;
+    padding-bottom: 70px;
+    text-align: center;
+}
+
+.title__text {
     font-size: 20px;
+    width: 780px;
+    margin: 0 auto;
+}
+
+.black {
+    color: #000000;
+}
+
+/*First screen*/
+.header {
+    background-color: #FFF5EE;
+    color: #010101;
+    padding-top: 58px;
+    padding-bottom: 40px;
+}
+
+.menu {
+    margin-top: 10px;
+
+}
+
+.menu__item {
+    margin: 0 57px;
+}
+
+.menu__item a {
+    font-size: 22px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.menu__item a:hover {
+    text-decoration: none;
+    color: #EE82EE;
+}
+
+.offer {
+    margin-top: 117px;
+}
+
+.offer__title {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.offer__intro {
+    font-size: 20px;
+}
+
+.offer__text {
+    font-size: 16px;
+    margin-top: 15px;
+    color: #555555;
+    width: 400px;
+}
+
+.icons__item {
+    margin-right: 30px;
+}
+
+.icons__item a {
+    color: #000000;
+    font-size: 42px;
+    transition: all 0.3s ease;
+}
+
+.icons__item a:hover {
+    text-decoration: none;
+    color: #EE82EE;
+}
+
+.Yoshinori {
+    display: block;
+    margin: 60px auto 0;
+}
+
+.registration-field {
+    text-align: left;
+    color: #0b2e13;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.message-form {
+    margin-top: 20px;
+    font-size: 20px;
+    text-align: left;
+}
+
+.radio-buttons {
+    margin-top: 20px;
+}
+
+.media__title {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.media__text {
+    font-size: 24px;
+    margin-top: 15px;
+    color: #555555;
+    text-align: justify;
+}
+
+.media__left {
+    font-size: 24px;
+    margin-top: 10px;
+    color: #555555;
+    text-align: justify;
+}
+
+.degradation {
+    margin-top: 25px;
+}
+
+.image {
+    margin: 10px;
+}
+
+/*Second screen*/
+.features {
+    background-color: #FFF5EE;
+}
+
+.feature {
+    margin-bottom: 65px;
+}
+
+.feature__icon {
+    font-size: 50px;
+    margin-right: 37px;
+    color: #000000;
+}
+
+.feature__text {
+    color: #898989;
+    text-align: justify;
+}
+
+.second__screen, .third__screen, .fourth__screen, .fifth__screen, .sixth__screen {
+    background-color: #FFF5EE;
+    color: #010101;
+}
+
+.benefits {
+    display: block;
+    padding-left: 180px;
+}
+
+/*Third screen*/
+.touch {
+    background: #FFE4E1;
+    color: #ffffff;
+}
+
+.title-3 {
+    padding-top: 50px;
+    padding-bottom: 30px;
+    text-align: center;
+}
+
+.form__input {
+    background: #ffffff;
+    font-size: 16px;
+    font-family: 'PT Sans', sans-serif;
+    border-radius: 5px;
+    width: 580px;
+    margin-right: 21px;
+    border: 0;
+    padding: 14px 0 14px 23px;
+    outline: none;
+}
+
+.form__btn {
+    font-family: 'PT Sans', sans-serif;
+    background: #EE82EE;
+    color: #000000;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 5px;
+    width: 126px;
+    border: 0;
+    padding: 14px 0;
+    cursor: pointer;
+}
+
+.contacts {
+    color: #000000;
+    font-size: 20px;
+    text-align: center;
+    width: 300px;
+    margin: 0 auto;
+}
+
+/*Footer*/
+
+.footer {
+    background: #FFE4E1;
+    padding: 30px 0 54px;
+}
+
+.credits {
+    color: #000000;
+    font-size: 16px;
+    text-align: center;
+    width: 160px;
+    margin: 0 auto;
+}
+
+/*Media requests*/
+@media screen and (max-width: 992px) {
+    .logo {
+        display: block;
+        margin: 0 auto 30px;
+    }
+
+    .offer {
+        text-align: center;
+    }
+
+    .offer__text {
+        margin: 0 auto;
+        width: auto;
+    }
+
+    .icons {
+        justify-content: center;
+    }
+
+    .icons__item:nth-child(3) {
+        margin-right: 0;
+    }
+
+    .form__input {
+        margin-right: 0;
+        width: 100%;
+    }
+
+    .form__btn {
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    .title__text {
+        width: auto;
+    }
+}
+
+@media screen and (max-width: 768px) {
+.message-form{
+    display: block;
+    margin: 0 auto;
+}
+}
+
+@media screen and (max-width: 576px) {
+    .Yoshinori {
+        width: 100%;
+    }
+
+    .menu {
+        flex-direction: column;
+    }
+
+    .menu__item {
+        text-align: center;
+        margin-bottom: 10px;
+    }
 }

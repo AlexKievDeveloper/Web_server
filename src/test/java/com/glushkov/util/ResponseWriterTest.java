@@ -1,3 +1,4 @@
+
 package com.glushkov.util;
 
 import com.glushkov.entity.HttpStatus;
@@ -12,8 +13,10 @@ public class ResponseWriterTest {
     @Test
     public void writeResponse() throws IOException {
         File pathToOutput = new File("src/test/Output.txt");
-        try(BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(pathToOutput)))) {
-            ResponseWriter responseWriter = new ResponseWriter(bufferedWriter);
+
+        try (BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(pathToOutput))) {
+
+            ResponseWriter responseWriter = new ResponseWriter(outputStream);
             responseWriter.writeResponse(HttpStatus.OK);
         } catch (IOException ioException) {
             ioException.printStackTrace();
@@ -21,7 +24,7 @@ public class ResponseWriterTest {
         HttpStatus httpStatus = HttpStatus.OK;
         String expected = httpStatus.getStatusLine() + "\n\n";
 
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(pathToOutput))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(pathToOutput))) {
 
             String line = bufferedReader.readLine();
             StringBuilder stringBuilder = new StringBuilder();

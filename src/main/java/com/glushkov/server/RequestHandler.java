@@ -9,17 +9,17 @@ import com.glushkov.util.RequestParser;
 import com.glushkov.util.ResponseWriter;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 
 public class RequestHandler {
     private static final Logger logger = (Logger) LoggerFactory.getLogger(RequestHandler.class);
 
     private BufferedReader socketReader;
-    private BufferedWriter socketWriter;
+    private BufferedOutputStream socketWriter;
     private String webAppPath;
 
-    public RequestHandler(BufferedReader socketReader, BufferedWriter socketWriter, String webAppPath) {
+    public RequestHandler(BufferedReader socketReader, BufferedOutputStream socketWriter, String webAppPath) {
         this.socketReader = socketReader;
         this.socketWriter = socketWriter;
         this.webAppPath = webAppPath;
@@ -32,7 +32,7 @@ public class RequestHandler {
         ResponseWriter responseWriter = new ResponseWriter(socketWriter);
         try {
             Request parsedRequest = requestParser.parseRequest(socketReader);
-            String content = ResourceReader.readContent(webAppPath, parsedRequest.getUri());
+            byte[] content = ResourceReader.readContent(webAppPath, parsedRequest.getUri());
             responseWriter.writeResponse(HttpStatus.OK, content);
         } catch (ServerException serverException) {
             serverException.printStackTrace();
