@@ -1,6 +1,8 @@
 package com.glushkov.server;
 
-import ch.qos.logback.classic.Logger;
+import com.glushkov.entity.HttpStatus;
+import com.glushkov.exception.ServerException;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
@@ -9,7 +11,7 @@ import java.net.Socket;
 
 
 public class Server {
-    private static final Logger logger = (Logger) LoggerFactory.getLogger(Server.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private String webAppPath;
 
@@ -18,23 +20,23 @@ public class Server {
     public void start() {
         logger.info("Start working");
         try (ServerSocket serverSocket = new ServerSocket(port)) {
+            logger.debug("New server socket opened!");
 
             while (true) {
                 try (Socket socket = serverSocket.accept();
                      BufferedReader socketReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                      BufferedOutputStream socketWriter = new BufferedOutputStream(socket.getOutputStream())) {
+                    logger.debug("New socket created");
 
-                    RequestHandler requesthandler = new RequestHandler(socketReader, socketWriter, webAppPath);
-                    requesthandler.handle();
-
-                } catch (IOException ioException) {
-                    logger.error("IOException while Server.start(): ", ioException);
-                    ioException.printStackTrace();
+                    if (socketReader.ready()) {
+                        RequestHandler requesthandler = new RequestHandler(socketReader, socketWriter, webAppPath);
+                        requesthandler.handle();
+                    }
                 }
             }
         } catch (IOException ioException) {
-            logger.error("IOException while ServerSocket(port) created: ", ioException);
-            ioException.printStackTrace();
+            logger.error("Error while Server.start():");
+            throw new ServerException("Error while Server.start()", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -54,4 +56,3 @@ public class Server {
         this.port = port;
     }
 }
-

@@ -1,17 +1,19 @@
 package com.glushkov.entity;
 
-import org.junit.Test;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HttpMethodTest {
 
     @Test
-    public void getByName() {
+    public void getByNameOrNullTest() {
+        //prepare
         HttpMethod expected = HttpMethod.GET;
-
-        HttpMethod actual = HttpMethod.getByName("get");
-
+        //when
+        HttpMethod actual = HttpMethod.getByNameOrNull("get");
+        //then
         assertEquals(expected, actual);
     }
 }

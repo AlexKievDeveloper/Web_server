@@ -1,54 +1,54 @@
 package com.glushkov.util;
 
-import ch.qos.logback.classic.Logger;
 import com.glushkov.entity.HttpMethod;
 import com.glushkov.entity.HttpStatus;
 import com.glushkov.entity.Request;
 import com.glushkov.exception.ServerException;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class RequestParser {
 
-    private static final Logger logger = (Logger) LoggerFactory.getLogger(RequestParser.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public Request parseRequest(BufferedReader socketReader) {
         try {
             String requestLine = socketReader.readLine();
-            logger.debug("Request was: " + requestLine);
+            logger.debug("Request line: {}", requestLine);
 
             if (requestLine == null || requestLine.isEmpty()) {
-                throw new ServerException("Request line was null or empty:" + requestLine, HttpStatus.BAD_REQUEST);
+                logger.info("Request line is empty or null:" + requestLine);
+                throw new ServerException("Request line was null or empty", HttpStatus.NOT_FOUND);
             }
+
             Request request = new Request();
             injectUrlAndHttpMethod(request, requestLine);
             injectHeaders(request, socketReader);
             return request;
-
         } catch (IOException ioException) {
-            logger.error("IOException while parsing request: ", ioException);
-            throw new ServerException("IOException while parsing request: " + ioException, HttpStatus.BAD_REQUEST);
+            logger.error("Error while parsing request: ", ioException);
+            throw new ServerException("Error while parsing request: ", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     void injectUrlAndHttpMethod(Request request, String requestLine) {
         String[] split = requestLine.split(" ");
+        HttpMethod httpMethod = HttpMethod.getByNameOrNull(split[0]);
 
-        if (!split[0].equals(HttpMethod.GET.toString()) && !split[0].equals(HttpMethod.POST.toString())
-                && !split[0].equals(HttpMethod.PUT.toString()) && !split[0].equals(HttpMethod.DELETE.toString())) {
-            logger.info("Server exception while injecting url and http method, method was not valid:" + split[0]);
-            throw new ServerException("Server exception while injecting url and http method, method was not valid:" + split[0],
-                    HttpStatus.METHOD_NOT_ALLOWED);
+        if (httpMethod == null) {
+            logger.info("Error in injectUrlAndHttpMethod, method was not valid: {}", split[0]);
+            throw new ServerException("Error in injectUrlAndHttpMethod, method was not valid: " + split[0], HttpStatus.METHOD_NOT_ALLOWED);
         }
-        request.setHttpMethod(HttpMethod.valueOf(split[0]));
+        request.setHttpMethod(httpMethod);
         request.setUri(split[1]);
     }
 
     void injectHeaders(Request request, BufferedReader socketReader) {
-
         Map<String, String> headers = new HashMap<>();
 
         try {
@@ -58,13 +58,12 @@ public class RequestParser {
                 String headerName = splitHeader[0];
                 String headerValue = splitHeader[1];
                 headers.put(headerName, headerValue);
-                logger.debug(header);
+                logger.debug("header: {}", header);
             }
             request.setHeaders(headers);
         } catch (IOException ioException) {
-            logger.error("IOException while injecting headers " + ioException + "Server answer: "
-                    + HttpStatus.BAD_REQUEST, ioException);
-            throw new ServerException("IOException while injecting headers " + ioException, HttpStatus.BAD_REQUEST);
+            logger.error("Error while injecting headers. Server answer: " + HttpStatus.BAD_REQUEST);
+            throw new ServerException("Error while injecting headers", HttpStatus.BAD_REQUEST);
         }
     }
 }

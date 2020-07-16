@@ -12,14 +12,14 @@ public enum HttpMethod {
         this.name = name;
     }
 
-    public static HttpMethod getByName(String name) {
+    public static HttpMethod getByNameOrNull(String name) {
         HttpMethod[] httpMethods = values();
         for (HttpMethod httpMethod : httpMethods) {
             if (httpMethod.name.equalsIgnoreCase(name)) {
                 return httpMethod;
             }
         }
-        throw new IllegalArgumentException("No method for name: " + name + " found");
+        return null;
     }
 
     public String getName() {
