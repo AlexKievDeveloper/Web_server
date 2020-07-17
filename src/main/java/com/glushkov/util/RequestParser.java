@@ -62,7 +62,7 @@ public class RequestParser {
             }
             request.setHeaders(headers);
         } catch (IOException ioException) {
-            logger.error("Error while injecting headers. Server answer: " + HttpStatus.BAD_REQUEST);
+            logger.error("Error while injecting headers. Server answer: " + HttpStatus.BAD_REQUEST, ioException);
             throw new ServerException("Error while injecting headers", HttpStatus.BAD_REQUEST);
         }
     }

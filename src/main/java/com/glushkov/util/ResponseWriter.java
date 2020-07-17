@@ -31,34 +31,28 @@ public class ResponseWriter {
             socketWriter.write(LINE_END.getBytes());
             socketWriter.write(EMPTY_CONTENT.getBytes());
         } catch (IOException ioException) {
-            logger.error("Error while response was writing");
+            logger.error("Error while response was writing", ioException);
             throw new ServerException("Error while response was writing", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     public void writeResponse(HttpStatus httpStatus, InputStream inputStream) {
 
-        try (BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
+        try (inputStream) {
 
             socketWriter.write(httpStatus.getStatusLine().getBytes());
             socketWriter.write(LINE_END.getBytes());
             socketWriter.write(LINE_END.getBytes());
-            int c;
-            while ((c = bufferedInputStream.read()) != -1) {
-                socketWriter.write(c);
+
+            byte[] buffer = new byte[16384];
+            int count;
+            while ((count = inputStream.read(buffer)) != -1) {
+                socketWriter.write(buffer, 0, count);
             }
             logger.debug("Server answered: {}", httpStatus.getStatusLine());
         } catch (IOException ioException) {
-            logger.error("Error while response was writing");
+            logger.error("Error while response was writing", ioException);
             throw new ServerException("Error while response was writing", HttpStatus.INTERNAL_SERVER_ERROR);
-        } finally {
-            try {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
         }
     }
 }

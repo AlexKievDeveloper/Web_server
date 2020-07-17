@@ -38,14 +38,14 @@ public class ResourceReaderTest {
 
     @Test
     public void readContentTestForServerExceptionThrown() {
-            Exception exception = assertThrows(ServerException.class, () -> {
+        Exception exception = assertThrows(ServerException.class, () -> {
 
-                ResourceReader.readContent("src/test/", "RequestGE.txt");
-            });
+            ResourceReader.readContent("src/test/", "RequestGE.txt");
+        });
 
-            String expectedMessage = "File not found";
-            String actualMessage = exception.getMessage();
+        String expectedMessage = "File not found";
+        String actualMessage = exception.getMessage();
 
-           assertTrue(actualMessage.contains(expectedMessage));
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 }

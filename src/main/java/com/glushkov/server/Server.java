@@ -1,3 +1,4 @@
+
 package com.glushkov.server;
 
 import com.glushkov.entity.HttpStatus;
@@ -23,19 +24,24 @@ public class Server {
             logger.debug("New server socket opened!");
 
             while (true) {
-                try (Socket socket = serverSocket.accept();
-                     BufferedReader socketReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                     BufferedOutputStream socketWriter = new BufferedOutputStream(socket.getOutputStream())) {
-                    logger.debug("New socket created");
+                Socket socket = serverSocket.accept();
+                logger.debug("New socket created");
 
-                    if (socketReader.ready()) {
+                Runnable target = () -> {
+                    try (BufferedReader socketReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                         BufferedOutputStream socketWriter = new BufferedOutputStream(socket.getOutputStream())) {
                         RequestHandler requesthandler = new RequestHandler(socketReader, socketWriter, webAppPath);
                         requesthandler.handle();
+                    } catch (IOException ioException) {
+                        logger.error("Error while handle", ioException);
+                        throw new ServerException("Error while handle", HttpStatus.INTERNAL_SERVER_ERROR);
                     }
-                }
+                };
+                new Thread(target).start();
             }
-        } catch (IOException ioException) {
-            logger.error("Error while Server.start():");
+        } catch (
+                IOException ioException) {
+            logger.error("Error while Server.start():", ioException);
             throw new ServerException("Error while Server.start()", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
